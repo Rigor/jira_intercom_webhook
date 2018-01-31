@@ -6,8 +6,26 @@ INTERCOM_REGEX = /https:\/\/app.intercom.io\/a\/apps\/(?<app_id>\S*)\/inbox\/(\S
 INTERCOM_CLIENT = IntercomApiClient.new(ENV['INTERCOM_API_KEY'])
 JIRA_HOSTNAME = ENV['JIRA_HOSTNAME']
 
-use Rack::Auth::Basic, "Restricted Area" do |username, password|
+class WebhookAuth < Rack::Auth::Basic
+
+  def call(env)
+    request = Rack::Request.new(env)
+    case request.path
+    when '/ping'
+      @app.call(env)
+    else
+      super
+    end
+  end
+end
+
+use WebhookAuth, "Restricted Area" do |username, password|
   username == ENV['APP_USERNAME'] and password == ENV['APP_PASSWORD']
+end
+
+get '/ping' do
+  content_type :json
+  {status: 'OK'}.to_json
 end
 
 get '/health' do
