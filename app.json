@@ -18,6 +18,10 @@
       "description": "Password used for basic auth",
       "generator": "secret"
     },
+    "INTERCOM_ACCESS_TOKEN": {
+      "description": "Access token for your account in Intercom",
+      "value": "intercom_access_token"
+    },
     "INTERCOM_APP_ID": {
       "description": "ID of your application in Intercom",
       "value": "intercom_app_id"
