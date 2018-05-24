@@ -28,6 +28,9 @@ This app works by:
 # ID of your application in Intercom
 INTERCOM_APP_ID
 
+# Access token for your Intercom account (if provided, INTERCOM_API_KEY is ignored)
+INTERCOM_ACCESS_TOKEN
+
 # API key for your Intercom account
 INTERCOM_API_KEY
 

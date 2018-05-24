@@ -3,7 +3,15 @@ Bundler.require
 Dir[File.dirname(__FILE__) + '/lib/*.rb'].each {|file| require file }
 
 INTERCOM_REGEX = /https:\/\/app.intercom.io\/a\/apps\/(?<app_id>\S*)\/inbox\/(\S*\/)?conversation(s)?\/(?<conversation_id>\d*)/
-INTERCOM_CLIENT = IntercomApiClient.new(ENV['INTERCOM_APP_ID'], ENV['INTERCOM_API_KEY'])
+
+# If an access token is provided it should be supplied as the username and
+# the password should be omitted
+if access_token = ENV['INTERCOM_ACCESS_TOKEN']
+  INTERCOM_CLIENT = IntercomApiClient.new(access_token, '')
+else
+  INTERCOM_CLIENT = IntercomApiClient.new(ENV['INTERCOM_APP_ID'], ENV['INTERCOM_API_KEY'])
+end
+
 JIRA_HOSTNAME = ENV['JIRA_HOSTNAME']
 
 class WebhookAuth < Rack::Auth::Basic
